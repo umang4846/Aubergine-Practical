@@ -1,5 +1,10 @@
 import java.util.Scanner;
 
+/**
+ * need to pass total no of rows and columns  --> String [][] arr = new String[row][column];
+ * then, need to pass all the X and S in 2D Array (X = field , S = Sheep)
+ * Program will return Max no. of Sheep close to each others
+ */
 public class QuestionTwo {
 
     // Static class variable
