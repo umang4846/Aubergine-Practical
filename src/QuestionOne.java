@@ -1,30 +1,57 @@
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This Program is used to perform Coin Change problem
+ * need to pass coin Amount first
+ * then, need to pass total no. of coins
+ * then, need to pass the coins
+ * Program will return the all the possible combinations of coins for the Entered amount
+ * Also return total no. of possible combinations
+ */
 class QuestionOne {
 
-    private static int count(int[] S, int m, int n) {
-        // If n is 0 then there is 1 solution
-        // (do not include any coin)
-        if (n == 0)
+    //List to store temp
+    private static List<Integer> temp = new ArrayList<>();
+
+    //Static method used to prevent make copy in the memory
+    private static int count(int[] arr, int coinsCount, int target, List<Integer> t) {
+        if (target == 0) {
+            System.out.print("{ ");
+            for (int l = 0; l < t.size(); l++) {
+                System.out.print(t.get(l));
+                //if not a last iteration, then print ( , )
+                if (!(l == t.size() - 1))
+                    System.out.print(", ");
+            }
+            System.out.print(" }");
+            System.out.println();
             return 1;
-
-        // If n is less than 0 then no solution exists
-        if (n < 0)
+        }
+        if (target < 0) {
+            // t.remove(t.size()-1);
             return 0;
-
-        // If there are no coins and n
-        // is greater than 0, then no solution exist
-        if (m <= 0 && n >= 1)
+        }
+       // if (coinsCount <= 0 && target >= 1) {
+        if (coinsCount <= 0) {
             return 0;
+        }
 
-        // count is sum of solutions (i) including S[m-1] (ii) excluding S[m-1]
-        return count(S, m - 1, n) +
-                count(S, m, n - S[m - 1]);
+        int i = count(arr, coinsCount - 1, target, t);
+        t.add(arr[coinsCount - 1]);
+        int j = count(arr, coinsCount, target - arr[coinsCount - 1], t);
+        t.remove(t.indexOf(arr[coinsCount - 1]));
+
+        return i + j;
     }
 
-
     public static void main(String[] args) {
+        // int arr[] = {1, 2, 3, 4};
+        // int m = arr.length;
+        // System.out.println("No of ways are : "+ count(arr,m,4, temp));
+
         int sum = 0;
         //Get the Value from user for Amount
         System.out.println("Enter the Amount :");
@@ -46,7 +73,7 @@ class QuestionOne {
             sum = sum + arr[i];
         }
 
-        System.out.println("Possoble Combinations are :" + count(arr, c, n));
+        System.out.println("No of total Combinations are : " + count(arr, c, n, temp));
     }
 }
 
